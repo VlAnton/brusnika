@@ -1,1 +1,1 @@
-from ..restraunt_menu import urls_
+# from ..restraunt_menu import urls_
