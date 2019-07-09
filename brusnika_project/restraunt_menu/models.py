@@ -13,11 +13,11 @@ class Category(models.Model):
 
 
 class MenuItem(models.Model):
-    title = models.CharField(blank=False, null=False, max_length=100)
+    title = models.CharField(blank=False, null=False, max_length=100, unique=True)
     calories = models.TextField(blank=False, null=False)
     price = models.PositiveIntegerField()
     image = models.ImageField(upload_to='images/', null=True, blank=True)
-    list_of_allergens = models.OneToOneField('AllergensModel', on_delete=models.CASCADE, null=True)
+    list_of_allergens = models.OneToOneField('Allergens', on_delete=models.CASCADE, null=True)
     category = models.ForeignKey(
         'Category',
         null=True,
@@ -35,7 +35,7 @@ class MenuItem(models.Model):
         return self.title
 
 
-class AllergensModel(models.Model):
+class Allergens(models.Model):
     list_of_allergens = models.TextField(blank=True, null=True)
 
     class Meta:

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import MenuItem
+from .models import (MenuItem, Category, Allergens)
 
 
 class MenuItemSerializer(serializers.ModelSerializer):
@@ -8,16 +8,14 @@ class MenuItemSerializer(serializers.ModelSerializer):
         model = MenuItem
         fields = '__all__'
 
-    def create(self, validated_data):
-        # title = validated_data.get('title' ,'')
-        # calories = validated_data.get('calories' ,'')
-        # price = validated_data.get('price' ,'')
-        # image = validated_data.get('image' ,'')
 
-        # item = MenuItem.items.create(**validated_data)
-        # item.save()
-        # print(validated_data)
-        print(validated_data)
-        return MenuItem.items.create(**validated_data)
-        # return item
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
 
+
+class AllergensSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Allergens
+        fields = '__all__'
