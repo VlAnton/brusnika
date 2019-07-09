@@ -14,8 +14,8 @@ class Category(models.Model):
 
 class MenuItem(models.Model):
     title = models.CharField(blank=False, null=False, max_length=100, unique=True)
-    calories = models.TextField(blank=False, null=False)
-    price = models.PositiveIntegerField()
+    calories = models.TextField(blank=True, null=True)
+    price = models.PositiveIntegerField(blank=False, null=False)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     list_of_allergens = models.OneToOneField('Allergens', on_delete=models.CASCADE, null=True)
     category = models.ForeignKey(
@@ -43,3 +43,4 @@ class Allergens(models.Model):
 
     def __str__(self):
         return self.list_of_allergens
+
