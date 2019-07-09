@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 
-from restraunt_menu.models import (MenuItem, AllergensModel, Category)
-from restraunt_menu.serializers import MenuItemSerializer
+from ..models import (MenuItem, AllergensModel, Category)
+from ..serializers import MenuItemSerializer
 
 
 class MenuItemViewset(viewsets.ModelViewSet):

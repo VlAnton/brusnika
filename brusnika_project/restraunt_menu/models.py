@@ -5,7 +5,8 @@ class Category(models.Model):
     name = models.CharField(max_length=200)
 
     class Meta:
-        verbose_name_plural = "categories"
+        verbose_name_plural = 'categories'
+        app_label = 'restraunt_menu'
 
     def __str__(self):
         return self.name
@@ -24,10 +25,11 @@ class MenuItem(models.Model):
         on_delete=models.PROTECT
     )
 
-    items = models.Manager
+    items = models.Manager()
 
     class Meta:
         order_with_respect_to = 'title'
+        app_label = 'restraunt_menu'
 
     def __str__(self):
         return self.title
@@ -35,6 +37,9 @@ class MenuItem(models.Model):
 
 class AllergensModel(models.Model):
     list_of_allergens = models.TextField(blank=True, null=True)
+
+    class Meta:
+        app_label = 'restraunt_menu'
 
     def __str__(self):
         return self.list_of_allergens

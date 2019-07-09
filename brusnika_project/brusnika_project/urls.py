@@ -16,10 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 
-# from . import urls_
-
+from restraunt_menu import urls_
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', include(urls_))
+    path('', include(urls_))
 ]
