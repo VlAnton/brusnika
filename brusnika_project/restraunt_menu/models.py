@@ -16,13 +16,18 @@ class MenuItem(models.Model):
     title = models.CharField(blank=False, null=False, max_length=100, unique=True)
     calories = models.TextField(blank=True, null=True)
     price = models.PositiveIntegerField(blank=False, null=False)
-    image = models.ImageField(upload_to='images/', null=True, blank=True)
-    list_of_allergens = models.OneToOneField('Allergens', on_delete=models.CASCADE, null=True)
+    image = models.ImageField(null=True, blank=True)
+    list_of_allergens = models.ForeignKey(
+        'Allergens',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL
+    )
     category = models.ForeignKey(
         'Category',
         null=True,
         blank=True,
-        on_delete=models.PROTECT
+        on_delete=models.SET_NULL
     )
 
     items = models.Manager()

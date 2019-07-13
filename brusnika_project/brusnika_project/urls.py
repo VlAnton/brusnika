@@ -16,9 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 
+from rest_framework.schemas import get_schema_view
+
 from restraunt_menu import urls_
+
+
+schema = get_schema_view(title='Menu API')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(urls_))
+    path('', include(urls_)),
+    # re_path('^schema$', include(schema))
 ]
