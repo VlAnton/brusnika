@@ -22,12 +22,12 @@ class MenuView(View):
             meal: 'MenuItem'
         ) -> None:
         if category in categories:
-            categories[category].append(meal.title)
+            categories[category].append({meal.title: meal.price})
         else:
-            categories[category] = [meal.title]
+            categories[category] = [{meal.title: meal.price}]
 
     def get(self: 'MenuView', request: 'HttpRequest') -> 'HttpResponse':
-        categories: {'str': ['str']} = {}
+        categories: {'str': {'str': int}} = {}
         menu = MenuItem.items.all()
 
         for meal in menu:
@@ -35,12 +35,9 @@ class MenuView(View):
             category: 'Category' = meal.category
 
             if category:
-                category: 'str' = category.name
-                self.context_value_handler(categories, category, meal)
-
+                self.context_value_handler(categories, category.name, meal)
             else:
-                category: 'str' = 'Без названия'
-                self.context_value_handler(categories, category, meal)
+                self.context_value_handler(categories, 'Без названия', meal)
 
         return render(request, 'restraunt_menu/list.html', context={'context': categories})
 
@@ -52,10 +49,10 @@ class OrderView(TemplateView):
         path: str = request.get_full_path()
         context = {}
 
-        meals = re.findall(r'sos=\w+', path)
+        meals = re.findall(r'\d+=\w+', path)
 
         for meal in meals:
-            _, val = meal.split('=')
-            context[val] = val
+            price, val = meal.split('=')
+            context[val] = price
 
         return render(request, self.template_name, context={'context': context})

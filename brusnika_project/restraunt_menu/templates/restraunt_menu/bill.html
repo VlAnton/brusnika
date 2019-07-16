@@ -6,6 +6,24 @@
         <meta charset="utf-8">
     </head>
     <body>
-        {{ context }}
+        <script>
+            let data = '{{context}}';
+            data = data.replace(/(&#39;)/g, '"').replace(/\w(\")\w/gi, 'f\'s');
+            data = JSON.parse(data);
+            
+            let total = Object.values(data).reduce((previousValue, currentValue) => {
+                return previousValue + currentValue;
+            });
+
+            $('body').append('<h1>Your order:</h1><br>')
+
+            Object.keys(data).forEach(meal => {
+                $('body').append(`<li>${meal}</li>`);
+            });
+
+            $('body').append(`
+                <h3>Total price: ${total}</h3>
+            `);
+        </script>
     </body>
 </html>
