@@ -12,4 +12,5 @@ router.register('allergens', api_views.AllergensViewSet)
 
 urlpatterns = [
     path('', include(router.urls), name='menu'),
+    path('custom_list/', api_views.MenuAPIView.as_view())
 ]

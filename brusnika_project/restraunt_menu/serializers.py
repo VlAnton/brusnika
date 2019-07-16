@@ -20,6 +20,8 @@ class MenuItemSerializer(serializers.ModelSerializer):
     calories = serializers.CharField(required=False)
     price = serializers.IntegerField(required=False)
     image = serializers.ImageField(required=False)
+    list_of_allergens = serializers.CharField(required=False)
+    category = serializers.CharField(required=False, max_length=200)
 
     class Meta:
         model = MenuItem
@@ -67,4 +69,25 @@ class MenuItemSerializer(serializers.ModelSerializer):
         return instance
 
     def create(self: 'MenuItemSerializer', validated_data: {}) -> 'MenuItem':
+        alergens_str = validated_data.get('list_of_allergens')
+        category_str = validated_data.get('category')
+
+        alergens = None
+        category = None
+
+        if alergens_str:
+            alergens = Allergens.alergens.filter(list_of_allergens=alergens_str).first()
+
+            if not alergens:
+                alergens = Allergens.alergens.create(list_of_allergens=alergens_str)
+        
+        if category_str:
+            category = Category.categories.filter(name=category_str).first()
+
+            if not category:
+                category = Category.categories.create(name=category_str)
+
+        validated_data['list_of_allergens'] = alergens
+        validated_data['category'] = category
+
         return MenuItem.items.create(**validated_data)

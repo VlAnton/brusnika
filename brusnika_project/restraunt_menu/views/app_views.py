@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 
 from urllib.parse import unquote
+from functools import reduce
 
 from ..models import (MenuItem, Allergens, Category)
 
@@ -61,7 +62,7 @@ class OrderView(TemplateView):
             for meal in meals:
                 price, meal = meal.split('=')
 
-                context['meals'].append(meal)
+                context['meals'].append(reduce(lambda x, y: f'{x} {y}', meal.split('_')))
                 context['total'] += int(price)
-        
+
         return render(request, self.template_name, context={'context': context})

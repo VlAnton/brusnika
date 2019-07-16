@@ -2,7 +2,9 @@ from django.db import models
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
+
+    categories = models.Manager()
 
     class Meta:
         verbose_name_plural = 'categories'
@@ -21,12 +23,14 @@ class MenuItem(models.Model):
         'Allergens',
         null=True,
         blank=True,
+        unique=False,
         on_delete=models.SET_NULL
     )
     category = models.ForeignKey(
         'Category',
         null=True,
         blank=True,
+        unique=False,
         on_delete=models.SET_NULL
     )
 
@@ -42,6 +46,8 @@ class MenuItem(models.Model):
 
 class Allergens(models.Model):
     list_of_allergens = models.TextField(blank=True, null=True)
+
+    alergens = models.Manager()
 
     class Meta:
         app_label = 'restraunt_menu'
