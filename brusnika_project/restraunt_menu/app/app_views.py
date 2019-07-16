@@ -1,22 +1,17 @@
-from django.shortcuts import render, reverse
+from django.shortcuts import render, redirect, reverse
 from django.views import View
 from django.views.generic import TemplateView
-from django.http import HttpResponse, HttpRequest
-from django.views.decorators.csrf import csrf_protect
-from django.utils.decorators import method_decorator
 
 from urllib.parse import unquote
 from functools import reduce
 
-from ..models import (MenuItem, Allergens, Category)
+from ..models import MenuItem, Allergens, Category
 
 import re
 
 
-csrf_protected_method = method_decorator(csrf_protect)
-
-
-class MenuView(View):
+class MenuView(TemplateView):
+    template_name = 'restraunt_menu/list.html'
 
     def context_value_handler(
             self: 'MenuView',
@@ -24,7 +19,6 @@ class MenuView(View):
             category: 'str',
             meal: 'MenuItem'
         ) -> None:
-        print(meal.price)
         if category in categories:
             categories[category].append({meal.title: meal.price})
         else:
@@ -43,26 +37,30 @@ class MenuView(View):
             else:
                 self.context_value_handler(categories, 'Без названия', meal)
 
-        return render(request, 'restraunt_menu/list.html', context={'context': categories})
+        return render(request, self.template_name, context={'context': categories})
 
 
 class OrderView(TemplateView):
     template_name = 'restraunt_menu/bill.html'
 
     def get(self: 'OrderView', request: 'HttpRequest', *args, **kwargs) -> 'HttpResponse':
-        path: str = unquote(request.get_full_path())
-        meals = re.findall(r'\d+=.+', path).pop().split('&')
         
-        context = {
-            'total': 0,
-            'meals': []
-        }
+        path: str = unquote(request.get_full_path())
+        match: 're.Match' = re.search(r'\d+=.+', path)
 
-        if meals:
+        if match:
+            meals: str = match.group(0).split('&')
+            context = {
+                'total': 0,
+                'meals': []
+            }
+
             for meal in meals:
                 price, meal = meal.split('=')
 
                 context['meals'].append(reduce(lambda x, y: f'{x} {y}', meal.split('_')))
                 context['total'] += int(price)
 
-        return render(request, self.template_name, context={'context': context})
+            return render(request, self.template_name, context={'context': context})
+
+        return redirect(reverse('menu-app'))
