@@ -5,6 +5,8 @@ from django.http import HttpResponse, HttpRequest
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 
+from urllib.parse import unquote
+
 from ..models import (MenuItem, Allergens, Category)
 
 import re
@@ -21,6 +23,7 @@ class MenuView(View):
             category: 'str',
             meal: 'MenuItem'
         ) -> None:
+        print(meal.price)
         if category in categories:
             categories[category].append({meal.title: meal.price})
         else:
@@ -46,13 +49,19 @@ class OrderView(TemplateView):
     template_name = 'restraunt_menu/bill.html'
 
     def get(self: 'OrderView', request: 'HttpRequest', *args, **kwargs) -> 'HttpResponse':
-        path: str = request.get_full_path()
-        context = {}
+        path: str = unquote(request.get_full_path())
+        meals = re.findall(r'\d+=.+', path).pop().split('&')
+        
+        context = {
+            'total': 0,
+            'meals': []
+        }
 
-        meals = re.findall(r'\d+=\w+', path)
+        if meals:
+            for meal in meals:
+                price, meal = meal.split('=')
 
-        for meal in meals:
-            price, val = meal.split('=')
-            context[val] = price
-
+                context['meals'].append(meal)
+                context['total'] += int(price)
+        
         return render(request, self.template_name, context={'context': context})

@@ -8,7 +8,7 @@
     <body>
         <script type="text/javascript">
             let data = '{{context}}';
-            data = data.replace(/((&#39;)|(&quot;))/g, '"').replace(/\w(\")\w/gi, 'f\'s');
+            data = data.replace(/((&#39;)|(&quot;))/g, '"');
             data = JSON.parse(data);
 
             let meals = {}

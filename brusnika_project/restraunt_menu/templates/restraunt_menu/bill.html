@@ -6,7 +6,7 @@
         <meta charset="utf-8">
     </head>
     <body>
-        <script>
+        <!-- <script>
             let data = '{{context}}';
             data = data.replace(/(&#39;)/g, '"').replace(/\w(\")\w/gi, 'f\'s');
             data = JSON.parse(data);
@@ -21,9 +21,12 @@
                 $('body').append(`<li>${meal}</li>`);
             });
 
-            $('body').append(`
-                <h3>Total price: ${total}</h3>
-            `);
-        </script>
+            $('body').append(`<h3>Total price: ${total}</h3>`);
+        </script> -->
+        <h1>Your order:</h1><br>
+        {% for meal in context.meals %}
+            <li>{{ meal }}</li>
+        {% endfor %}
+        <h3>Total price: {{ context.total }}</h3>
     </body>
 </html>
