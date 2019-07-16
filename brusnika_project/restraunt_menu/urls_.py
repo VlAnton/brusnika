@@ -1,9 +1,7 @@
 from django.urls import include, path
 
-from .urls import (api_urls, app_urls)
-
-
-
+from .api import api_urls
+from .app import app_urls
 
 
 urlpatterns = [

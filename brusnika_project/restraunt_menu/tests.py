@@ -41,8 +41,8 @@ class AccountTests(APITestCase):
             'title': 'test menu item',
             'calories': '228kkal',
             'price': 228,
-            'list_of_allergens': 'sadfasdfasdfasdf',
-            'category': 'asdfasdfkjn'
+            'list_of_allergens': 'nuts, eggs, tomatoes',
+            'category': 'fat'
         }
         response = self.client.post(url, data, format='json')
 
