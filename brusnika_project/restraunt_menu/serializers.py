@@ -26,60 +26,42 @@ class MenuItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = MenuItem
         fields = ('__all__')
+    
+    def validate(self: 'MenuItemSerializer', data: {}) -> {}:
+        title = data.get('title')
+        price = data.get('price')
 
-    def validate_title(self: 'MenuItemSerializer', value: str) -> str:
-        if not value:
-            if not self.instance:
-                raise serializers.ValidationError(
-                    'title is missing or incorrect'
-                )
+        if not title:
+            raise serializers.ValidationError('title is required')
 
-            return self.instance.price
-        return value
-
-    def validate_price(self: 'MenuItemSerializer', value: int) -> int:
-        is_price_valid = (value and (
-                isinstance(value, int) or 
-                isinstance(value, float)
+        is_price_valid = (price and (
+                isinstance(price, int) or 
+                isinstance(price, float)
             )
         )
 
         if not is_price_valid:
-            if not self.instance:
-                raise serializers.ValidationError(
-                    'price is missing or incorrect'
-                )
-
-            return self.instance.price
-        return value
-
-    def update(self: 'MenuItemSerializer', instance: 'MenuItem', validated_data: {}) -> 'MenuItem':
-        instance.title = validated_data.get('title', instance.title)
-        instance.calories = validated_data.get('calories', instance.calories)
-        instance.price = validated_data.get('price', instance.price)
-        instance.image = validated_data.get('image', instance.image)
-        instance.list_of_allergens = validated_data.get(
-            'list_of_allergens',
-            instance.list_of_allergens
-        )
-        instance.category = validated_data.get('category', instance.category)
-
-        instance.save()
-
-        return instance
+            raise serializers.ValidationError('price is required')
+            
+        return data
 
     def create(self: 'MenuItemSerializer', validated_data: {}) -> 'MenuItem':
-        alergens_str = validated_data.get('list_of_allergens')
+        title = validated_data.get('title')
+
+        if MenuItem.items.filter(title=title):
+                raise serializers.ValidationError('title is taken')
+
+        allergens_str = validated_data.get('list_of_allergens')
         category_str = validated_data.get('category')
 
-        alergens = None
+        allergens = None
         category = None
 
-        if alergens_str:
-            alergens = Allergens.alergens.filter(list_of_allergens=alergens_str).first()
+        if allergens_str:
+            allergens = Allergens.allergens.filter(list_of_allergens=allergens_str).first()
 
-            if not alergens:
-                alergens = Allergens.alergens.create(list_of_allergens=alergens_str)
+            if not allergens:
+                allergens = Allergens.allergens.create(list_of_allergens=allergens_str)
         
         if category_str:
             category = Category.categories.filter(name=category_str).first()
@@ -87,7 +69,7 @@ class MenuItemSerializer(serializers.ModelSerializer):
             if not category:
                 category = Category.categories.create(name=category_str)
 
-        validated_data['list_of_allergens'] = alergens
+        validated_data['list_of_allergens'] = allergens
         validated_data['category'] = category
 
         return MenuItem.items.create(**validated_data)

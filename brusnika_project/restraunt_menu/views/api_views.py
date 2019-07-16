@@ -1,36 +1,26 @@
-from rest_framework import viewsets
-from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.generics import ListCreateAPIView
 
-from ..models import (MenuItem, Allergens, Category)
-from ..serializers import (
-    MenuItemSerializer,
-    AllergensSerializer,
-    CategorySerializer
-)
+from ..models import MenuItem
+from ..serializers import MenuItemSerializer
 
 
-class MenuItemViewset(viewsets.ModelViewSet):
+class MenuAPIView(ListCreateAPIView):
     queryset = MenuItem.items.all()
     serializer_class = MenuItemSerializer
 
-class MenuAPIView(APIView):
     def get(self, request):
-        menu_items = MenuItem.items.all() 
-        serializer = MenuItemSerializer(menu_items, many=True)
+        serializer = self.serializer_class(self.get_queryset(), many=True)
 
         return Response(serializer.data)
 
-    def post(self, request):
-        pass
+    def post(self, request, format=None):
+        serializer = self.serializer_class(data=request.data)
 
-class AllergensViewSet(viewsets.ModelViewSet):
-    queryset = Allergens.alergens.all()
-    serializer_class = AllergensSerializer
+        if serializer.is_valid():
+            serializer.save()
 
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.categories.all()
-    serializer_class = CategorySerializer
-
-
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

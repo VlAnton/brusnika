@@ -18,7 +18,7 @@ class MenuItem(models.Model):
     title = models.CharField(blank=False, null=False, max_length=100, unique=True)
     calories = models.TextField(blank=True, null=True)
     price = models.PositiveIntegerField(blank=False, null=False)
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(upload_to='static/media/images/', null=True, blank=True)
     list_of_allergens = models.ForeignKey(
         'Allergens',
         null=True,
@@ -47,7 +47,7 @@ class MenuItem(models.Model):
 class Allergens(models.Model):
     list_of_allergens = models.TextField(blank=True, null=True)
 
-    alergens = models.Manager()
+    allergens = models.Manager()
 
     class Meta:
         app_label = 'restraunt_menu'

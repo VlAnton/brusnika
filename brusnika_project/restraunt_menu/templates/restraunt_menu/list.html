@@ -9,7 +9,11 @@
         <script type="text/javascript">
             let data = '{{context}}';
             data = data.replace(/((&#39;)|(&quot;))/g, '"');
-            data = JSON.parse(data);
+            try {
+                data = JSON.parse(data);
+            } catch(e) {
+                data = JSON.parse(decodeURI(data));
+            }
 
             let meals = {}
 
@@ -24,9 +28,12 @@
                     meals[meal_class] = price
 
                     $('body').append(`
-                        <li>${meal}</li>
-                        <input type="checkbox" id="${meal_class}" class="add">
-                        <label for="${meal_class}">&#43;</label>`
+                        <li>
+                            ${meal}
+                            <input type="checkbox" id="${meal_class}" class="add">
+                            <label for="${meal_class}">&#43;</label>
+                        </li>
+                        `
                     );
 
                     $(`#${meal_class}`).css({
