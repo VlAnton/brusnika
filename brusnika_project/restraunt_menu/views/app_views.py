@@ -1,8 +1,16 @@
 from django.shortcuts import render, reverse
 from django.views import View
-from django.http import HttpResponse
+from django.views.generic import TemplateView
+from django.http import HttpResponse, HttpRequest
+from django.views.decorators.csrf import csrf_protect
+from django.utils.decorators import method_decorator
 
 from ..models import (MenuItem, Allergens, Category)
+
+import re
+
+
+csrf_protected_method = method_decorator(csrf_protect)
 
 
 class MenuView(View):
@@ -37,3 +45,17 @@ class MenuView(View):
         return render(request, 'restraunt_menu/list.html', context={'context': categories})
 
 
+class OrderView(TemplateView):
+    template_name = 'restraunt_menu/bill.html'
+
+    def get(self: 'OrderView', request: 'HttpRequest', *args, **kwargs) -> 'HttpResponse':
+        path: str = request.get_full_path()
+        context = {}
+
+        meals = re.findall(r'sos=\w+', path)
+
+        for meal in meals:
+            _, val = meal.split('=')
+            context[val] = val
+
+        return render(request, self.template_name, context={'context': context})

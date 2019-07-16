@@ -10,30 +10,56 @@
             let data = '{{context}}';
             data = data.replace(/((&#39;)|(&quot;))/g, '"').replace(/\w(\")\w/gi, 'f\'s');
             data = JSON.parse(data);
+            let list = []
 
-            Object.keys(data).forEach(category => {
+            Object.keys(data).forEach((category, index) => {
                 $('body').append(`<h1 id="#${category}">${category}</h1><br>`);
 
                 data[category].forEach((meal) => {
                     const meal_class = meal.replace(/(\s)|(')/gi, '_')
+                    console.log(meal)
+                    list.push(meal_class)
 
                     $('body').append(`
-                    <div class="${meal}">
                         <li>${meal}</li>
-                        <input type="checkbox" id=${meal_class}>
-                        <label for="${meal_class}">&#43;</label>
-                    </div>`);
+                        <input type="checkbox" id="${meal_class}" class="add">
+                        <label for="${meal_class}">&#43;</label>`
+                    );
 
                     $(`#${meal_class}`).css({
-                        "visibility": "hidden",
+                        "visibility": "hidden"
                     });
                 });
+
                 $('label').css({
                     "border": "1px solid black",
                     "font-size": "200%",
                     "color": "green"
                 });
             });
+
+            window.onload = () => {
+                list.forEach(meal_class => {
+                    $(`#${meal_class}`).click(() => {
+                        if ($(`#${meal_class}`).is(':checked')) {
+                            $('form').append(
+                                `<input type="text" name="sos" class="${meal_class}"><br>`
+                            );
+                            $(`.${meal_class}`).attr('value', `${meal_class}`);
+                        }
+                        if (!$(`#${meal_class}`).is(':checked')) {
+                            $(`.${meal_class}`).remove();
+                        }
+                    });
+                })
+            }
         </script>
+
+        <form action='/app/bill/' method='get'>
+            {% csrf_token %}
+            Total:<br>
+            <input type="text" class="total"><br>
+            <input type="submit" value="Submit">
+        </form>
     </body>
 </html>
