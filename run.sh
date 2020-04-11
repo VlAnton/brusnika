@@ -1,8 +1,7 @@
-python3 -m venv brusnika;
-source brusnika/bin/activate;
+python3 -m venv env;
+source env/bin/activate;
 pip install -r requirements.txt;
-cd ./brusnika_project;
+cd ./restraunt_menu;
 
-python manage.py makemigrations;
 python manage.py migrate;
 python manage.py runserver

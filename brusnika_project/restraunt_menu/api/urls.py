@@ -2,7 +2,7 @@ from django.urls import path, include
 
 from rest_framework import routers
 
-from .api_views import MenuAPIView
+from restraunt_menu.api.views import MenuAPIView
 
 
 router = routers.DefaultRouter()

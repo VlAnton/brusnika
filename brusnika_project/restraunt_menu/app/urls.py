@@ -1,5 +1,5 @@
 from django.urls import path, include, re_path
-from .app_views import MenuView, OrderView
+from restraunt_menu.app.views import MenuView, OrderView
 
 
 urlpatterns = [

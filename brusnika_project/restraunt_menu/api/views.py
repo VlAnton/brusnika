@@ -3,8 +3,8 @@ from rest_framework import status
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
-from ..models import MenuItem
-from ..serializers import MenuItemSerializer
+from restraunt_menu.models import MenuItem
+from restraunt_menu.api.serializers import MenuItemSerializer
 
 
 class MenuAPIView(ListCreateAPIView):
