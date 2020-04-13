@@ -1,0 +1,23 @@
+[
+    {
+        "model": "restraunt_menu.Allergens",
+        "pk": 1,
+        "fields": {
+            "title": "Сitrus"
+        }
+    },
+    {
+        "model": "restraunt_menu.Allergens",
+        "pk": 2,
+        "fields": {
+            "title": "Nuts"
+        }
+    },
+    {
+        "model": "restraunt_menu.Allergens",
+        "pk": 3,
+        "fields": {
+            "title": "Herbs"
+        }
+    }
+]

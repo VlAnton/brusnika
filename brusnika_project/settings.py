@@ -2,6 +2,12 @@ import os
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
+STATIC_URL = '/static/'
+
+STATIC_ROOT = '/static/'
 
 SECRET_KEY = 'd6*mfow8(^nab3+)yjwn&9!psbr0t4s=*90lw3#f@_+3euoohh'
 DEBUG = True
@@ -56,7 +62,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql', 
         'NAME': 'brusnika',
         'USER': 'antonvlasov',
-        'PASSWORD': 'solosolo1',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -87,7 +93,3 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-
-STATIC_URL = '/static/'
-STATIC_ROOT = './static/'

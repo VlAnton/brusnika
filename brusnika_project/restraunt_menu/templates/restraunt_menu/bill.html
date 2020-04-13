@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-
+        <title>Bill</title>
         <meta charset="utf-8">
     </head>
     <body>
-        <h1>Your order:</h1><br>
+        <h2>Your order:</h2><br>
 
-        {% for meal in context.meals %}
-            <li>{{ meal }}</li>
+        {% for meal_title in order %}
+            <li>{{ meal_title }}</li>
         {% endfor %}
 
-        <h3>Total price: {{ context.total }}</h3>
+        <h3>Total price: {{ total }}</h3>
     </body>
 </html>

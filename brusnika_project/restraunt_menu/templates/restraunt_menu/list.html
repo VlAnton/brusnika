@@ -1,76 +1,31 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-
+        {% load static %}
+        <title>Menu</title>
+        <link href="{% static "/css/list.css" %}" type="text/css" rel="stylesheet" />
         <meta charset="utf-8">
     </head>
     <body>
-        <script type="text/javascript">
-            let data = '{{context}}';
-            data = data.replace(/((&#39;)|(&quot;))/g, '"');
-            try {
-                data = JSON.parse(data);
-            } catch(e) {
-                data = JSON.parse(decodeURI(data));
-            }
-
-            let meals = {}
-
-            Object.keys(data).forEach(category => {
-                $('body').append(`<h1 id="#${category}">${category}</h1><br>`);
-
-                Object.keys(data[category]).forEach(index => {
-                    const meal = Object.keys(data[category][index]).pop();
-                    const price = data[category][index][meal];
-                    const meal_class = meal.replace(/(\s)|(')/gi, '_');
-
-                    meals[meal_class] = price
-
-                    $('body').append(`
-                        <li>
-                            ${meal}
-                            <input type="checkbox" id="${meal_class}" class="add">
-                            <label for="${meal_class}">&#43;</label>
-                        </li>
-                        `
-                    );
-
-                    $(`#${meal_class}`).css({
-                        "visibility": "hidden"
-                    });
-
-                    $('label').css({
-                        "border": "1px solid black",
-                        "font-size": "200%",
-                        "color": "green"
-                    });
-                });
-            });
-            
-            window.onload = () => {
-                Object.keys(meals).forEach(meal_class => {
-                    $(`#${meal_class}`).click(() => {
-                        if ($(`#${meal_class}`).is(':checked')) {
-                            $('form').append(
-                                `<input
-                                type="text"
-                                name="${meals[meal_class]}"
-                                class="${meal_class}"><br>`
-                            );
-                            $(`.${meal_class}`).attr('value', `${meal_class}`);
-                        }
-                        if (!$(`#${meal_class}`).is(':checked')) {
-                            $(`.${meal_class}`).remove();
-                        }
-                    })
-                });
-            }
-        </script>
-
-        <form action='/app/bill/' method='get'>
+        <form action="{% url "app:bill" %}" method="POST">
             {% csrf_token %}
-            <input type="submit" value="Submit"><br>
+            {% for category in categories %}
+                <div class="category">
+                    <h2>{{ category }}</h2>
+                    <ul>
+                        {% for item in category.menu_items.all %}
+                            <li class="category">
+                                {% with pk=item.pk %}
+                                    <label for="{{ pk }}">{{ item.title }}</label>
+                                    <span class="add">+</span>
+                                    <input id="{{ pk }}" type="checkbox" name="ordered" value="{{ pk }}">
+                                {% endwith %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+            <input id="btn" type="submit" value="Submit"><br>
         </form>
     </body>
 </html>

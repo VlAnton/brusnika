@@ -1,0 +1,23 @@
+[
+    {
+        "model": "restraunt_menu.Category",
+        "pk": 1,
+        "fields": {
+            "title": "Fast food"
+        }
+    },
+    {
+        "model": "restraunt_menu.Category",
+        "pk": 2,
+        "fields": {
+            "title": "Meat"
+        }
+    },
+    {
+        "model": "restraunt_menu.Category",
+        "pk": 3,
+        "fields": {
+            "title": "Vegeterian"
+        }
+    }
+]

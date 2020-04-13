@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from restraunt_menu.models import (MenuItem, Category, Allergens)
+from restraunt_menu.models import MenuItem, Category, Allergens
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -34,21 +34,21 @@ class MenuItemSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         title = validated_data.get('title')
-        if MenuItem.items.filter(title=title):
+        if MenuItem.objects.filter(title=title):
             raise serializers.ValidationError('title is taken')
 
         allergens_str = validated_data.get('list_of_allergens', '')
         category_str = validated_data.get('category', '')
 
-        allergens = Allergens.allergens.filter(list_of_allergens=allergens_str).first()
+        allergens = Allergens.objects.filter(list_of_allergens=allergens_str).first()
         if not allergens:
-            allergens = Allergens.allergens.create(list_of_allergens=allergens_str)
+            allergens = Allergens.objects.create(list_of_allergens=allergens_str)
         
-        category = Category.categories.filter(name=category_str).first()
+        category = Category.objects.filter(name=category_str).first()
         if not category:
-            category = Category.categories.create(name=category_str)
+            category = Category.objects.create(name=category_str)
 
         validated_data['list_of_allergens'] = allergens
         validated_data['category'] = category
 
-        return MenuItem.items.create(**validated_data)
+        return MenuItem.objects.create(**validated_data)

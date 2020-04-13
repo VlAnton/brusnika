@@ -2,54 +2,47 @@ from django.db import models
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=200, unique=True)
+    title = models.CharField(max_length=200, unique=True)
 
     class Meta:
-        verbose_name = 'category'
-        verbose_name_plural = 'categories'
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 class MenuItem(models.Model):
-    title = models.CharField(blank=False, null=False, max_length=100, unique=True)
-    calories = models.TextField(blank=True, null=True)
-    price = models.PositiveIntegerField(blank=False, null=False)
+    title = models.CharField(null=True, max_length=100, unique=True)
+    calories = models.PositiveIntegerField()
+    price = models.PositiveIntegerField()
     image = models.ImageField(upload_to='static/media/images/', null=True, blank=True)
-    list_of_allergens = models.ForeignKey(
+    allergens = models.ManyToManyField(
         'Allergens',
-        null=True,
-        blank=True,
-        unique=False,
-        on_delete=models.SET_NULL
+        related_name='menu_items',
     )
     category = models.ForeignKey(
         'Category',
-        null=True,
-        blank=True,
-        unique=False,
-        on_delete=models.SET_NULL
+        related_name='menu_items',
+        on_delete=models.CASCADE,
     )
 
-    items = models.Manager()
-
     class Meta:
+        verbose_name = 'Menu item'
+        verbose_name_plural = 'Menu items'
         order_with_respect_to = 'title'
-        app_label = 'restraunt_menu'
 
     def __str__(self):
         return self.title
 
 
 class Allergens(models.Model):
-    list_of_allergens = models.TextField(blank=True, null=True)
-
-    allergens = models.Manager()
+    title = models.CharField('Allergens', max_length=100)
 
     class Meta:
-        app_label = 'restraunt_menu'
+        verbose_name = 'Allergen'
+        verbose_name_plural = 'Allergens'
+        order_with_respect_to = 'title'
 
     def __str__(self):
-        return self.list_of_allergens
-
+        return self.title

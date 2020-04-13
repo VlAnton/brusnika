@@ -8,13 +8,11 @@ from restraunt_menu.api.serializers import MenuItemSerializer
 
 
 class MenuAPIView(ListCreateAPIView):
-    queryset = MenuItem.items.all()
     serializer_class = MenuItemSerializer
     authentication_classes = [SessionAuthentication, BasicAuthentication]
 
     def get(self, request):
         serializer = self.serializer_class(self.get_queryset(), many=True)
-
         return Response(serializer.data)
 
     def post(self, request, format=None):

@@ -1,11 +1,9 @@
-from django.urls import path, include
-
-from rest_framework import routers
+from django.urls import path
 
 from restraunt_menu.api.views import MenuAPIView
 
 
-router = routers.DefaultRouter()
+app_name = 'api'
 
 urlpatterns = [
     path('menu_items/', MenuAPIView.as_view(), name='menu')

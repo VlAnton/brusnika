@@ -1,0 +1,38 @@
+[
+    {
+        "model": "restraunt_menu.MenuItem",
+        "pk": 1,
+        "fields": {
+            "title": "Burger",
+            "calories": 550,
+            "price": 550,
+            "image": null,
+            "category": 1,
+            "allergens": [1]
+        }
+    },
+    {
+        "model": "restraunt_menu.MenuItem",
+        "pk": 2,
+        "fields": {
+            "title": "Steak",
+            "calories": 650,
+            "price": 1200,
+            "image": null,
+            "category": 2,
+            "allergens": [2, 3]
+        }
+    },
+    {
+        "model": "restraunt_menu.MenuItem",
+        "pk": 3,
+        "fields": {
+            "title": "Salad",
+            "calories": 330,
+            "price": 320,
+            "image": null,
+            "category": 3,
+            "allergens": [2]
+        }
+    }
+]

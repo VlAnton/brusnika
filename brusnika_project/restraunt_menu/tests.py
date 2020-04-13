@@ -46,9 +46,9 @@ class AccountTests(APITestCase):
         }
         response = self.client.post(url, data, format='json')
 
-        instance = MenuItem.items.get(title=data['title'])
-        allergens = Allergens.allergens.get(list_of_allergens=data['list_of_allergens'])
-        category = Category.categories.get(name=data['category'])
+        instance = MenuItem.objects.get(title=data['title'])
+        allergens = Allergens.objects.get(list_of_allergens=data['list_of_allergens'])
+        category = Category.objects.get(name=data['category'])
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertNotEqual(instance, None)
