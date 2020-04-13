@@ -3,19 +3,26 @@
         "model": "restraunt_menu.Allergens",
         "pk": 1,
         "fields": {
-            "title": "Сitrus"
+            "title": "Meal has no allergens."
         }
     },
     {
         "model": "restraunt_menu.Allergens",
         "pk": 2,
         "fields": {
-            "title": "Nuts"
+            "title": "Сitrus"
         }
     },
     {
         "model": "restraunt_menu.Allergens",
         "pk": 3,
+        "fields": {
+            "title": "Nuts"
+        }
+    },
+    {
+        "model": "restraunt_menu.Allergens",
+        "pk": 4,
         "fields": {
             "title": "Herbs"
         }

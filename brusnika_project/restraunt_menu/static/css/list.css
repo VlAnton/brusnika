@@ -1,11 +1,14 @@
-.category {
-    display: inline-block;
+form {
+    display: block;
     text-align: center;
-    padding-right: 20px;
+}
 
-    li {
-        list-style-type: none;
-    }
+.category {
+    padding-right: 20px;
+}
+
+li {
+    list-style-type: none;
 }
 
 .ordered {

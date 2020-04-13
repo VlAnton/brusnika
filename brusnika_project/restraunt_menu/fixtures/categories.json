@@ -3,19 +3,26 @@
         "model": "restraunt_menu.Category",
         "pk": 1,
         "fields": {
-            "title": "Fast food"
+            "title": "Meal does not belong to any category."
         }
     },
     {
         "model": "restraunt_menu.Category",
         "pk": 2,
         "fields": {
-            "title": "Meat"
+            "title": "Fast food"
         }
     },
     {
         "model": "restraunt_menu.Category",
         "pk": 3,
+        "fields": {
+            "title": "Meat"
+        }
+    },
+    {
+        "model": "restraunt_menu.Category",
+        "pk": 4,
         "fields": {
             "title": "Vegeterian"
         }
