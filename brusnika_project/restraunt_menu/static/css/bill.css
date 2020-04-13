@@ -1,0 +1,14 @@
+.list {
+    height: 20px;
+    padding: 2px;
+}
+
+.column {
+    text-align: center;
+    padding-left: 20px;
+}
+
+.total, span {
+    display: block;
+    padding-top: 20px;
+}

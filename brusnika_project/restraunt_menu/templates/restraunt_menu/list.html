@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        {% load static %}
         <title>Menu</title>
-        <link href="{% static "/css/list.css" %}" type="text/css" rel="stylesheet" />
+        <link href="/static/css/list.css" type="text/css" rel="stylesheet" />
         <meta charset="utf-8">
     </head>
     <body>
@@ -16,9 +15,8 @@
                         {% for item in category.menu_items.all %}
                             <li class="category">
                                 {% with pk=item.pk %}
+                                    <input class="ordered" id="{{ pk }}" type="checkbox" name="ordered" value="{{ pk }}">
                                     <label for="{{ pk }}">{{ item.title }}</label>
-                                    <span class="add">+</span>
-                                    <input id="{{ pk }}" type="checkbox" name="ordered" value="{{ pk }}">
                                 {% endwith %}
                             </li>
                         {% endfor %}

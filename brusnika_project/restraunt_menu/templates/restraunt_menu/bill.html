@@ -2,15 +2,35 @@
 <html>
     <head>
         <title>Bill</title>
+        <link href="/static/css/bill.css" type="text/css" rel="stylesheet" />
         <meta charset="utf-8">
     </head>
     <body>
         <h2>Your order:</h2><br>
-
-        {% for meal_title in order %}
-            <li>{{ meal_title }}</li>
-        {% endfor %}
-
-        <h3>Total price: {{ total }}</h3>
+        <table>
+            <thead>
+                <tr>
+                    {% for title in titles %}
+                        <th class="column">{{ title }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for price, allergens in order %}
+                        <td class="column">
+                            <span class="price">Price: {{ price }}</span>
+                            <span class="allergens">Allergens:</span>
+                            <span class="list">
+                                {% for allergen in allergens %}
+                                    <li>{{ allergen }}</li>
+                                {% endfor %}
+                            </span>
+                        </td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+        <h3 class="total">Total price: {{ total }}</h3>
     </body>
 </html>

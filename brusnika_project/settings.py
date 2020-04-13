@@ -2,11 +2,11 @@ import os
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 STATIC_URL = '/static/'
-
 STATIC_ROOT = '/static/'
 
 SECRET_KEY = 'd6*mfow8(^nab3+)yjwn&9!psbr0t4s=*90lw3#f@_+3euoohh'
